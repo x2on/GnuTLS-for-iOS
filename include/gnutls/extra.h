@@ -1,22 +1,23 @@
 /*
- * Copyright (C) 2002, 2003, 2004, 2005, 2007, 2008, 2009 Free Software Foundation
+ * Copyright (C) 2002, 2003, 2004, 2005, 2007, 2008, 2009, 2010 Free
+ * Software Foundation, Inc.
  *
  * Author: Nikos Mavrogiannopoulos
  *
- * This file is part of GNUTLS-EXTRA.
+ * This file is part of GnuTLS-EXTRA.
  *
- * GNUTLS-EXTRA is free software; you can redistribute it and/or
+ * GnuTLS-extra is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 3 of the
  * License, or (at your option) any later version.
  *
- * GNUTLS-EXTRA is distributed in the hope that it will be useful, but
+ * GnuTLS-extra is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with GNUTLS-EXTRA; if not, write to the Free Software
+ * along with GnuTLS-EXTRA; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
@@ -41,6 +42,14 @@ extern "C"
   /* TLS/IA stuff
    */
 
+  /**
+   * gnutls_ia_apptype_t:
+   * @GNUTLS_IA_APPLICATION_PAYLOAD: TLS/IA application payload.
+   * @GNUTLS_IA_INTERMEDIATE_PHASE_FINISHED: TLS/IA intermediate phase finished.
+   * @GNUTLS_IA_FINAL_PHASE_FINISHED: TLS/IA final phase finished.
+   *
+   * Enumeration of different certificate encoding formats.
+   */
   typedef enum
   {
     GNUTLS_IA_APPLICATION_PAYLOAD = 0,
@@ -80,8 +89,8 @@ extern "C"
   extern void
     gnutls_ia_set_client_avp_ptr (gnutls_ia_client_credentials_t cred,
 				  void *ptr);
-  extern void *
-  gnutls_ia_get_client_avp_ptr (gnutls_ia_client_credentials_t cred);
+  extern void *gnutls_ia_get_client_avp_ptr (gnutls_ia_client_credentials_t
+					     cred);
 
   /* Server TLS/IA credential functions. */
   extern void
@@ -90,8 +99,8 @@ extern "C"
   extern void
     gnutls_ia_set_server_avp_ptr (gnutls_ia_server_credentials_t cred,
 				  void *ptr);
-  extern void *
-  gnutls_ia_get_server_avp_ptr (gnutls_ia_server_credentials_t cred);
+  extern void *gnutls_ia_get_server_avp_ptr (gnutls_ia_server_credentials_t
+					     cred);
 
   /* TLS/IA handshake. */
   extern int gnutls_ia_handshake_p (gnutls_session_t session);
@@ -103,8 +112,7 @@ extern "C"
     gnutls_ia_permute_inner_secret (gnutls_session_t session,
 				    size_t session_keys_size,
 				    const char *session_keys);
-  extern int gnutls_ia_endphase_send (gnutls_session_t session,
-				      int final_p);
+  extern int gnutls_ia_endphase_send (gnutls_session_t session, int final_p);
 
   extern int gnutls_ia_verify_endphase (gnutls_session_t session,
 					const char *checksum);
@@ -116,8 +124,7 @@ extern "C"
 
   /* Utility stuff. */
   extern int gnutls_ia_generate_challenge (gnutls_session_t session,
-					   size_t buffer_size,
-					   char *buffer);
+					   size_t buffer_size, char *buffer);
   extern void gnutls_ia_extract_inner_secret (gnutls_session_t session,
 					      char *buffer);
 

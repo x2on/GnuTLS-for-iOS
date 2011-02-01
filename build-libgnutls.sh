@@ -21,7 +21,7 @@
 ###########################################################################
 #  Change values here
 #
-VERSION="2.8.6"
+VERSION="2.10.4"
 SDKVERSION="4.2"
 #
 ###########################################################################
@@ -65,11 +65,24 @@ do
 	cd src/gnutls-${VERSION}
 	
 	echo "Building gnutls for ${PLATFORM} ${SDKVERSION} ${ARCH}"
-	echo "Please stand by..."
 	
-	sed -ie "s!gnutls_log_func _gnutls_log_func;!gnutls_log_func _gnutls_log_func = NULL;!" "lib/gnutls_global.c"
+	if [ "${VERSION}" == "2.8.6" ];
+	then
+		echo "Version 2.8.6 detected - Patch needed"
+		echo "patching file lib/gnutls_global.c"
+		sed -ie "s!gnutls_log_func _gnutls_log_func;!gnutls_log_func _gnutls_log_func = NULL;!" "lib/gnutls_global.c"
+	fi
+	
+	
+	if [ "${VERSION}" == "2.10.4" ];
+	then
+		echo "Version 2.10.4 detected - Patch needed"
+		cd src
+		patch -R < ../../../gnutls-patch-${VERSION}.diff
+		cd ..
+	fi
 
-
+	echo "Please stand by..."
 
 	export DEVROOT="/Developer/Platforms/${PLATFORM}.platform/Developer"
 	export SDKROOT="${DEVROOT}/SDKs/${PLATFORM}${SDKVERSION}.sdk"

@@ -1,11 +1,12 @@
 /*
- * Copyright (C) 2003, 2004, 2005, 2007, 2008, 2009 Free Software Foundation
+ * Copyright (C) 2003, 2004, 2005, 2007, 2008, 2009, 2010 Free Software
+ * Foundation, Inc.
  *
  * Author: Nikos Mavrogiannopoulos
  *
- * This file is part of GNUTLS.
+ * This file is part of GnuTLS.
  *
- * The GNUTLS library is free software; you can redistribute it and/or
+ * The GnuTLS is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
  * as published by the Free Software Foundation; either version 2.1 of
  * the License, or (at your option) any later version.
@@ -60,21 +61,37 @@ extern "C"
   int gnutls_pkcs12_bag_encrypt (gnutls_pkcs12_bag_t bag, const char *pass,
 				 unsigned int flags);
 
+  /**
+   * gnutls_pkcs12_bag_type_t:
+   * @GNUTLS_BAG_EMPTY: Empty PKCS-12 bag.
+   * @GNUTLS_BAG_PKCS8_ENCRYPTED_KEY: PKCS-12 bag with PKCS-8 encrypted key.
+   * @GNUTLS_BAG_PKCS8_KEY: PKCS-12 bag with PKCS-8 key.
+   * @GNUTLS_BAG_CERTIFICATE: PKCS-12 bag with certificate.
+   * @GNUTLS_BAG_CRL: PKCS-12 bag with CRL.
+   * @GNUTLS_BAG_SECRET: PKCS-12 bag with secret PKCS-9 keys.
+   * @GNUTLS_BAG_ENCRYPTED: Encrypted PKCS-12 bag.
+   * @GNUTLS_BAG_UNKNOWN: Unknown PKCS-12 bag.
+   *
+   * Enumeration of different PKCS 12 bag types.
+   */
   typedef enum gnutls_pkcs12_bag_type_t
   {
     GNUTLS_BAG_EMPTY = 0,
-
     GNUTLS_BAG_PKCS8_ENCRYPTED_KEY = 1,
-    GNUTLS_BAG_PKCS8_KEY,
-    GNUTLS_BAG_CERTIFICATE,
-    GNUTLS_BAG_CRL,
+    GNUTLS_BAG_PKCS8_KEY = 2,
+    GNUTLS_BAG_CERTIFICATE = 3,
+    GNUTLS_BAG_CRL = 4,
+    GNUTLS_BAG_SECRET = 5,	/* Secret data. Underspecified in pkcs-12,
+				 * gnutls extension. We use the PKCS-9
+				 * random nonce ID 1.2.840.113549.1.9.25.3
+				 * to store randomly generated keys.
+				 */
     GNUTLS_BAG_ENCRYPTED = 10,
     GNUTLS_BAG_UNKNOWN = 20
   } gnutls_pkcs12_bag_type_t;
 
-  gnutls_pkcs12_bag_type_t
-  gnutls_pkcs12_bag_get_type (gnutls_pkcs12_bag_t bag,
-			      int indx);
+    gnutls_pkcs12_bag_type_t
+    gnutls_pkcs12_bag_get_type (gnutls_pkcs12_bag_t bag, int indx);
   int gnutls_pkcs12_bag_get_data (gnutls_pkcs12_bag_t bag, int indx,
 				  gnutls_datum_t * data);
   int gnutls_pkcs12_bag_set_data (gnutls_pkcs12_bag_t bag,

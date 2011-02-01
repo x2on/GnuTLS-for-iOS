@@ -1,21 +1,22 @@
 /*
- * Copyright (C) 2004, 2005, 2007, 2008, 2009 Free Software Foundation
+ * Copyright (C) 2004, 2005, 2007, 2008, 2009, 2010 Free Software
+ * Foundation, Inc.
  * Copyright (c) 2002 Andrew McDonald <andrew@mcdonald.org.uk>
  *
- * This file is part of GNUTLS-EXTRA.
+ * This file is part of GnuTLS-EXTRA.
  *
- * GNUTLS-EXTRA is free software; you can redistribute it and/or
+ * GnuTLS-extra is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 3 of the
  * License, or (at your option) any later version.
  *
- * GNUTLS-EXTRA is distributed in the hope that it will be useful, but
+ * GnuTLS-extra is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with GNUTLS-EXTRA; if not, write to the Free Software
+ * along with GnuTLS-EXTRA; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
@@ -23,12 +24,12 @@
 
 /* WARNING: Error functions aren't currently thread-safe */
 
-/* This file contains prototypes about the OPENSSL compatibility
- * layer in GNUTLS. GNUTLS is not a replacement of OPENSSL so
- * this compatibility layer only support limited OPENSSL functionality.
+/* This file contains prototypes about the OpenSSL compatibility layer
+ * in GnuTLS.  GnuTLS is not a complete replacement of OPENSSL so this
+ * compatibility layer only support limited OpenSSL functionality.
  *
- * New programs should avoid using this compatibility layer, and
- * use the native GNUTLS API.
+ * New programs should avoid using this compatibility layer, and use
+ * the native GnuTLS API directly.
  */
 
 #ifndef GNUTLS_OPENSSL_H
@@ -168,8 +169,9 @@ extern "C"
 
 #define rbio gnutls_state
 
-  typedef struct {
-    void* handle;
+  typedef struct
+  {
+    void *handle;
   } MD_CTX;
 
   struct rsa_st;
