@@ -1,0 +1,5 @@
+This is a tutorial for using self-compiled builds of the GnuTLS-library for iOS. You can build apps with XCode and the official SDK from Apple with this. I also made a small example-app for using the libraries with XCode and the iPhone/iPhone-Simulator. You can also download the precompiled GnuTLS-library (2.8.6).
+
+Enjoy GnuTLS on the iPhone!
+
+I have made an iOS 4.2 XCode Project with GnuTLS 2.8.6 Libaries. The examples uses the MD5-algorithm to calculate an md5 from an UITextfield.
