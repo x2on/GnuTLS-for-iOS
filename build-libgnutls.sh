@@ -21,8 +21,8 @@
 ###########################################################################
 #  Change values here
 #
-VERSION="2.10.4"
-SDKVERSION="4.2"
+VERSION="2.10.5"
+SDKVERSION="4.3"
 #
 ###########################################################################
 #
@@ -73,12 +73,19 @@ do
 		sed -ie "s!gnutls_log_func _gnutls_log_func;!gnutls_log_func _gnutls_log_func = NULL;!" "lib/gnutls_global.c"
 	fi
 	
-	
 	if [ "${VERSION}" == "2.10.4" ];
 	then
 		echo "Version 2.10.4 detected - Patch needed"
 		cd src
 		patch -R < ../../../gnutls-patch-${VERSION}.diff
+		cd ..
+	fi
+	
+	if [ "${VERSION}" == "2.10.5" ];
+	then
+		echo "Version 2.10.5 detected - Patch needed"
+		cd src
+		patch -R < ../../../gnutls-patch-2.10.4.diff
 		cd ..
 	fi
 
