@@ -61,7 +61,7 @@
 
 - (IBAction)showInfo {
 	
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"GnuTLS-for-iOS" message:@"GnuTLS-Version: 2.8.6\nlibgcrypt-Version: 1.4.6\nlibgpg-error-Version: 1.10\n\nLicense: See include/*/LICENSE\n\nCopyright 2011 by Felix Schulze\n http://www.x2on.de" delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil];
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"GnuTLS-for-iOS" message:@"GnuTLS-Version: 2.12.0\nlibgcrypt-Version: 1.4.6\nlibgpg-error-Version: 1.10\n\nLicense: See include/*/LICENSE\n\nCopyright 2011 by Felix Schulze\n http://www.x2on.de" delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil];
 	
 	[alert show];
 	[alert release];
