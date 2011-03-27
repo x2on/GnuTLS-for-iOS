@@ -21,7 +21,7 @@
 ###########################################################################
 #  Change values here
 #
-VERSION="2.10.5"
+VERSION="2.12.0"
 SDKVERSION="4.3"
 #
 ###########################################################################
@@ -110,7 +110,7 @@ do
 
 	LOG="${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk/build-gnutls-${VERSION}.log"
 
-	./configure --host=${ARCH}-apple-darwin --prefix="${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk" --enable-shared=no --with-libgcrypt-prefix="${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk" >> "${LOG}" 2>&1
+	./configure --host=${ARCH}-apple-darwin --prefix="${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk" --enable-shared=no --with-libgcrypt --with-libgcrypt-prefix="${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk" >> "${LOG}" 2>&1
 
 	make >> "${LOG}" 2>&1
 	make install >> "${LOG}" 2>&1

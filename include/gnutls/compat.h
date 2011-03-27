@@ -1,7 +1,23 @@
 /* Typedefs for more compatibility with older GnuTLS. */
 
-#ifndef GNUTLS_COMPAT_H
-# define GNUTLS_COMPAT_H
+#ifndef _GNUTLS_COMPAT_H
+#define _GNUTLS_COMPAT_H
+
+#ifdef __GNUC__
+
+#define _GNUTLS_GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
+
+#if !defined GNUTLS_INTERNAL_BUILD
+#if _GNUTLS_GCC_VERSION >= 30100
+#define _GNUTLS_GCC_ATTR_DEPRECATED __attribute__ ((__deprecated__))
+#endif
+#endif
+
+#endif /* __GNUC__ */
+
+#ifndef _GNUTLS_GCC_ATTR_DEPRECATED
+#define _GNUTLS_GCC_ATTR_DEPRECATED
+#endif
 
 #define gnutls_cipher_algorithm gnutls_cipher_algorithm_t
 #define gnutls_kx_algorithm gnutls_kx_algorithm_t
@@ -98,4 +114,235 @@
 #define LIBGNUTLS_VERSION_NUMBER GNUTLS_VERSION_NUMBER
 #define LIBGNUTLS_EXTRA_VERSION GNUTLS_VERSION
 
-#endif /* GNUTLS_COMPAT_H */
+/* The gnutls_retr_st was deprecated by gnutls_certificate_retrieve_function()
+ * and gnutls_retr2_st.
+ */
+typedef struct gnutls_retr_st
+{
+  gnutls_certificate_type_t type;
+  union
+  {
+    gnutls_x509_crt_t *x509;
+    gnutls_openpgp_crt_t pgp;
+  } cert;
+  unsigned int ncerts;          /* one for pgp keys */
+
+  union
+  {
+    gnutls_x509_privkey_t x509;
+    gnutls_openpgp_privkey_t pgp;
+  } key;
+
+  unsigned int deinit_all;      /* if non zero all keys will be deinited */
+} gnutls_retr_st;
+
+typedef int gnutls_certificate_client_retrieve_function (gnutls_session_t,
+                                                         const
+                                                         gnutls_datum_t *
+                                                         req_ca_rdn,
+                                                         int nreqs,
+                                                         const
+                                                         gnutls_pk_algorithm_t
+                                                         * pk_algos,
+                                                         int
+                                                         pk_algos_length,
+                                                         gnutls_retr_st *);
+typedef int gnutls_certificate_server_retrieve_function (gnutls_session_t,
+                                                         gnutls_retr_st *);
+
+void gnutls_certificate_client_set_retrieve_function
+  (gnutls_certificate_credentials_t cred,
+   gnutls_certificate_client_retrieve_function *
+   func) _GNUTLS_GCC_ATTR_DEPRECATED;
+void
+  gnutls_certificate_server_set_retrieve_function
+  (gnutls_certificate_credentials_t cred,
+   gnutls_certificate_server_retrieve_function *
+   func) _GNUTLS_GCC_ATTR_DEPRECATED;
+
+  /* External signing callback.  No longer supported because it
+   * was deprecated by the PKCS #11 API. */
+typedef int (*gnutls_sign_func) (gnutls_session_t session,
+                                 void *userdata,
+                                 gnutls_certificate_type_t cert_type,
+                                 const gnutls_datum_t * cert,
+                                 const gnutls_datum_t * hash,
+                                 gnutls_datum_t * signature);
+
+void
+gnutls_sign_callback_set (gnutls_session_t session,
+                          gnutls_sign_func sign_func, void *userdata)
+  _GNUTLS_GCC_ATTR_DEPRECATED;
+gnutls_sign_func
+gnutls_sign_callback_get (gnutls_session_t session, void **userdata)
+ _GNUTLS_GCC_ATTR_DEPRECATED;
+
+/* Extension API is no longer exported because a lot of internal
+ * structures are used. Currently it works due to a compatibility
+ * layer, but will be removed in later versions.
+ */
+     int gnutls_ext_register (int type,
+                              const char *name,
+                              gnutls_ext_parse_type_t parse_type,
+                              gnutls_ext_recv_func recv_func,
+                              gnutls_ext_send_func send_func)
+  _GNUTLS_GCC_ATTR_DEPRECATED;
+
+/* We no longer support the finished callback. Use
+ * gnutls_session_channel_binding for similar functionality.
+ */
+     typedef void (*gnutls_finished_callback_func) (gnutls_session_t session,
+                                                    const void *finished,
+                                                    size_t len);
+     void gnutls_session_set_finished_function (gnutls_session_t session,
+                                                gnutls_finished_callback_func
+                                                func)
+  _GNUTLS_GCC_ATTR_DEPRECATED;
+
+/* returns security values. 
+ * Do not use them unless you know what you're doing. Those are dangerous since
+ * they depend on a particular TLS version number
+ */
+#define GNUTLS_MASTER_SIZE 48
+#define GNUTLS_RANDOM_SIZE 32
+     const void *gnutls_session_get_server_random (gnutls_session_t session)
+  _GNUTLS_GCC_ATTR_DEPRECATED;
+     const void *gnutls_session_get_client_random (gnutls_session_t session)
+  _GNUTLS_GCC_ATTR_DEPRECATED;
+     const void *gnutls_session_get_master_secret (gnutls_session_t session)
+  _GNUTLS_GCC_ATTR_DEPRECATED;
+
+     int gnutls_psk_netconf_derive_key (const char *password,
+                                        const char *psk_identity,
+                                        const char *psk_identity_hint,
+                                        gnutls_datum_t *
+                                        output_key)
+  _GNUTLS_GCC_ATTR_DEPRECATED;
+
+/* This is a very dangerous and error-prone function.
+ * Use gnutls_privkey_sign_hash() instead.
+ */
+  int gnutls_x509_privkey_sign_hash (gnutls_x509_privkey_t key,
+                                        const gnutls_datum_t * hash,
+                                        gnutls_datum_t * signature)
+                                        _GNUTLS_GCC_ATTR_DEPRECATED;
+
+  int gnutls_openpgp_privkey_sign_hash (gnutls_openpgp_privkey_t key,
+                                       const gnutls_datum_t * hash,
+                                       gnutls_datum_t * signature)
+                                       _GNUTLS_GCC_ATTR_DEPRECATED;
+
+
+/* Deprecated because verify_* functions are moved to public
+ * keys. Check abstract.h for similar functionality.
+ */
+  int gnutls_x509_privkey_verify_data (gnutls_x509_privkey_t key,
+                                       unsigned int flags,
+                                       const gnutls_datum_t * data,
+                                       const gnutls_datum_t * signature)
+                                       _GNUTLS_GCC_ATTR_DEPRECATED;
+
+/* we support the gnutls_privkey_sign_data() instead.
+ */
+  int gnutls_x509_privkey_sign_data (gnutls_x509_privkey_t key,
+                                     gnutls_digest_algorithm_t digest,
+                                     unsigned int flags,
+                                     const gnutls_datum_t * data,
+                                     void *signature,
+                                     size_t * signature_size)
+                                     _GNUTLS_GCC_ATTR_DEPRECATED;
+
+  /* gnutls_pubkey_verify_data() */
+  int gnutls_x509_crt_verify_data (gnutls_x509_crt_t crt,
+                                   unsigned int flags,
+                                   const gnutls_datum_t * data,
+                                   const gnutls_datum_t * signature)
+                                   _GNUTLS_GCC_ATTR_DEPRECATED;
+
+
+  /* gnutls_pubkey_verify_hash() */
+  int gnutls_x509_crt_verify_hash (gnutls_x509_crt_t crt,
+                                   unsigned int flags,
+                                   const gnutls_datum_t * hash,
+                                   const gnutls_datum_t * signature)
+                                   _GNUTLS_GCC_ATTR_DEPRECATED;
+
+  /* gnutls_pubkey_get_verify_algorithm() */
+  int gnutls_x509_crt_get_verify_algorithm (gnutls_x509_crt_t crt,
+                                            const gnutls_datum_t * signature,
+                                            gnutls_digest_algorithm_t * hash)
+                                            _GNUTLS_GCC_ATTR_DEPRECATED;
+
+  /* gnutls_pubkey_get_preferred_hash_algorithm() */
+  int gnutls_x509_crt_get_preferred_hash_algorithm (gnutls_x509_crt_t crt,
+                                                    gnutls_digest_algorithm_t
+                                                    * hash,
+                                                    unsigned int *mand)
+                                                    _GNUTLS_GCC_ATTR_DEPRECATED;
+
+  /* gnutls_x509_crq_privkey_sign() */
+  int gnutls_x509_crq_sign2 (gnutls_x509_crq_t crq,
+                             gnutls_x509_privkey_t key,
+                             gnutls_digest_algorithm_t dig,
+                             unsigned int flags)
+                             _GNUTLS_GCC_ATTR_DEPRECATED;
+  int gnutls_x509_crq_sign (gnutls_x509_crq_t crq, gnutls_x509_privkey_t key)
+                              _GNUTLS_GCC_ATTR_DEPRECATED;
+
+
+
+  /* gnutls_x509_crl_privkey_sign */
+  int gnutls_x509_crl_sign (gnutls_x509_crl_t crl,
+                            gnutls_x509_crt_t issuer,
+                            gnutls_x509_privkey_t issuer_key)
+                            _GNUTLS_GCC_ATTR_DEPRECATED;
+  int gnutls_x509_crl_sign2 (gnutls_x509_crl_t crl,
+                             gnutls_x509_crt_t issuer,
+                             gnutls_x509_privkey_t issuer_key,
+                             gnutls_digest_algorithm_t dig,
+                             unsigned int flags)
+                             _GNUTLS_GCC_ATTR_DEPRECATED;
+
+
+  void gnutls_certificate_get_x509_cas (gnutls_certificate_credentials_t sc,
+                                        gnutls_x509_crt_t ** x509_ca_list,
+                                        unsigned int *ncas)
+                                        _GNUTLS_GCC_ATTR_DEPRECATED;
+
+  void gnutls_certificate_get_x509_crls (gnutls_certificate_credentials_t sc,
+                                         gnutls_x509_crl_t ** x509_crl_list,
+                                         unsigned int *ncrls)
+                                         _GNUTLS_GCC_ATTR_DEPRECATED;
+
+  void
+    gnutls_certificate_get_openpgp_keyring (gnutls_certificate_credentials_t
+                                            sc,
+                                            gnutls_openpgp_keyring_t *
+                                            keyring)
+                                            _GNUTLS_GCC_ATTR_DEPRECATED;
+
+  /* this is obsolete (?). */
+  int gnutls_certificate_verify_peers (gnutls_session_t session)
+  _GNUTLS_GCC_ATTR_DEPRECATED;
+
+  /* functions to set priority of cipher suites
+   */
+  int gnutls_cipher_set_priority (gnutls_session_t session, const int *list)
+  _GNUTLS_GCC_ATTR_DEPRECATED;
+  int gnutls_mac_set_priority (gnutls_session_t session, const int *list)
+  _GNUTLS_GCC_ATTR_DEPRECATED;
+  int gnutls_compression_set_priority (gnutls_session_t session,
+                                       const int *list)
+                                       _GNUTLS_GCC_ATTR_DEPRECATED;
+  int gnutls_kx_set_priority (gnutls_session_t session, const int *list)
+  _GNUTLS_GCC_ATTR_DEPRECATED;
+  int gnutls_protocol_set_priority (gnutls_session_t session,
+                                    const int *list)
+                                    _GNUTLS_GCC_ATTR_DEPRECATED;
+  int gnutls_certificate_type_set_priority (gnutls_session_t session,
+                                            const int *list)
+                                            _GNUTLS_GCC_ATTR_DEPRECATED;
+
+  void gnutls_transport_set_lowat (gnutls_session_t session, int num) _GNUTLS_GCC_ATTR_DEPRECATED;
+
+#endif /* _GNUTLS_COMPAT_H */
