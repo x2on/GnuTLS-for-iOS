@@ -53,13 +53,13 @@ extern "C"
 {
 #endif
 
-#define GNUTLS_VERSION "2.12.2"
+#define GNUTLS_VERSION "2.12.3"
 
 #define GNUTLS_VERSION_MAJOR 2
 #define GNUTLS_VERSION_MINOR 12
-#define GNUTLS_VERSION_PATCH 2
+#define GNUTLS_VERSION_PATCH 3
 
-#define GNUTLS_VERSION_NUMBER 0x020c02
+#define GNUTLS_VERSION_NUMBER 0x020c03
 
 #define GNUTLS_CIPHER_RIJNDAEL_128_CBC GNUTLS_CIPHER_AES_128_CBC
 #define GNUTLS_CIPHER_RIJNDAEL_256_CBC GNUTLS_CIPHER_AES_256_CBC
@@ -1229,7 +1229,6 @@ extern "C"
                                             gnutls_errno_func errno_func);
 
   void gnutls_transport_set_errno (gnutls_session_t session, int err);
-  void gnutls_transport_set_global_errno (int err);
 
 /* session specific 
  */
