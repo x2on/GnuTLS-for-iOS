@@ -53,13 +53,13 @@ extern "C"
 {
 #endif
 
-#define GNUTLS_VERSION "2.12.3"
+#define GNUTLS_VERSION "2.12.4"
 
 #define GNUTLS_VERSION_MAJOR 2
 #define GNUTLS_VERSION_MINOR 12
-#define GNUTLS_VERSION_PATCH 3
+#define GNUTLS_VERSION_PATCH 4
 
-#define GNUTLS_VERSION_NUMBER 0x020c03
+#define GNUTLS_VERSION_NUMBER 0x020c04
 
 #define GNUTLS_CIPHER_RIJNDAEL_128_CBC GNUTLS_CIPHER_AES_128_CBC
 #define GNUTLS_CIPHER_RIJNDAEL_256_CBC GNUTLS_CIPHER_AES_256_CBC
@@ -1083,6 +1083,10 @@ extern "C"
 
   struct gnutls_openpgp_keyring_int;
   typedef struct gnutls_openpgp_keyring_int *gnutls_openpgp_keyring_t;
+
+  int
+    gnutls_certificate_get_issuer (gnutls_certificate_credentials_t sc,
+    gnutls_x509_crt_t cert, gnutls_x509_crt_t* issuer, unsigned int flags);
 
   int gnutls_certificate_set_x509_key (gnutls_certificate_credentials_t res,
                                        gnutls_x509_crt_t * cert_list,
