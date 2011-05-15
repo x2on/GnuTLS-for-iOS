@@ -1,10 +1,10 @@
-This is a tutorial for using self-compiled builds of the GnuTLS-library for iOS. You can build apps with XCode and the official SDK from Apple with this. I also made a small example-app for using the libraries with XCode and the iPhone/iPhone-Simulator. You can also download the precompiled GnuTLS-library (2.12.4).
+This is a tutorial for using self-compiled builds of the GnuTLS-library for iOS. You can build apps with XCode and the official SDK from Apple with this. I also made a small example-app for using the libraries with XCode and the iPhone/iPhone-Simulator. You can also download the precompiled GnuTLS-library (2.12.5).
 
 @see: http://www.x2on.de/2011/02/01/gnutls-for-ios-iphone-and-ipad/
 
 Enjoy GnuTLS on the iPhone!
 
-I have made an iOS 4.3 XCode Project with GnuTLS 2.12.4 Libaries. The examples uses the MD5-algorithm to calculate an md5 from an UITextfield.
+I have made an iOS 4.3 XCode Project with GnuTLS 2.12.5 Libaries. The examples uses the MD5-algorithm to calculate an md5 from an UITextfield.
 
 UPDATE 01.02.2011: Updated GnuTLS to 2.10.4: Patch needed from http://permalink.gmane.org/gmane.comp.encryption.gpg.gnutls.devel/4825
 UPDATE 19.03.2011: Updated GnuTLS to 2.10.5: Patch needed from http://permalink.gmane.org/gmane.comp.encryption.gpg.gnutls.devel/4825
