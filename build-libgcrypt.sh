@@ -22,7 +22,7 @@
 #  Change values here
 #
 VERSION="1.4.6"
-SDKVERSION="4.3"
+SDKVERSION="5.0"
 #
 ###########################################################################
 #
@@ -65,16 +65,22 @@ do
 	tar zxf libgcrypt-${VERSION}.tar.gz -C src
 	cd src/libgcrypt-${VERSION}
 
+	if [ "${VERSION}" == "1.4.6" ];
+	then
+		echo "Version 1.4.6 detected - Patch needed"
+		patch -p0 < ../../libgcrypt-patch-1.4.6.diff
+	fi
+
 	export DEVROOT="/Developer/Platforms/${PLATFORM}.platform/Developer"
 	export SDKROOT="${DEVROOT}/SDKs/${PLATFORM}${SDKVERSION}.sdk"
-	export CC=${DEVROOT}/usr/bin/gcc
+	export CC="${DEVROOT}/usr/bin/gcc -arch ${ARCH}"
 	export LD=${DEVROOT}/usr/bin/ld
-	export CPP=${DEVROOT}/usr/bin/cpp
+#	export CPP=${DEVROOT}/usr/bin/cpp
 	export CXX=${DEVROOT}/usr/bin/g++
 	export AR=${DEVROOT}/usr/bin/ar
 	export AS=${DEVROOT}/usr/bin/as
 	export NM=${DEVROOT}/usr/bin/nm
-	export CXXCPP=$DEVROOT/usr/bin/cpp
+#	export CXXCPP=$DEVROOT/usr/bin/cpp
 	export RANLIB=$DEVROOT/usr/bin/ranlib
 	export LDFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -L${CURRENTPATH}/lib"
 	export CFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -I${CURRENTPATH}/include"
