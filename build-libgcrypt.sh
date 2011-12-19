@@ -21,7 +21,7 @@
 ###########################################################################
 #  Change values here
 #
-VERSION="1.4.6"
+VERSION="1.5.0"
 SDKVERSION="5.0"
 #
 ###########################################################################
@@ -65,9 +65,9 @@ do
 	tar zxf libgcrypt-${VERSION}.tar.gz -C src
 	cd src/libgcrypt-${VERSION}
 
-	if [ "${VERSION}" == "1.4.6" ];
+	if [ "${VERSION}" == "1.4.6" ] || [ "${VERSION}" == "1.5.0" ];
 	then
-		echo "Version 1.4.6 detected - Patch needed"
+		echo "Version ${VERSION} detected - Patch needed"
 		patch -p0 < ../../libgcrypt-patch-1.4.6.diff
 	fi
 
