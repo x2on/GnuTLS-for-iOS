@@ -9,3 +9,4 @@ I have made an iOS 4.3 XCode Project with GnuTLS 2.12.7 Libaries. The examples u
 UPDATE 01.02.2011: Updated GnuTLS to 2.10.4: Patch needed from http://permalink.gmane.org/gmane.comp.encryption.gpg.gnutls.devel/4825
 UPDATE 19.03.2011: Updated GnuTLS to 2.10.5: Patch needed from http://permalink.gmane.org/gmane.comp.encryption.gpg.gnutls.devel/4825
 UPDATE 27.03.2011: Updated GnuTLS to 2.12.0: Force using libgcrypt
+UPDATE 20.11.2011: Updated GnuTLS to 2.12.14(excluding PCKS#11 support) build with iOS SDK 5.0
