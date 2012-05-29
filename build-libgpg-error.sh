@@ -22,14 +22,14 @@
 #  Change values here
 #
 VERSION="1.10"
-SDKVERSION="5.0"
+SDKVERSION="5.1"
 #
 ###########################################################################
 #
 # Don't change anything here
 CURRENTPATH=`pwd`
 ARCHS="i386 armv6 armv7"
-
+DEVELOPER=`xcode-select -print-path`
 
 ##########
 set -e
@@ -57,16 +57,23 @@ do
 	tar zxf libgpg-error-${VERSION}.tar.gz -C src
 	cd src/libgpg-error-${VERSION}
 
-	export DEVROOT="/Developer/Platforms/${PLATFORM}.platform/Developer"
+	export DEVROOT="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer"
 	export SDKROOT="${DEVROOT}/SDKs/${PLATFORM}${SDKVERSION}.sdk"
-	export CC="${DEVROOT}/usr/bin/gcc -arch ${ARCH}"
 	export LD=${DEVROOT}/usr/bin/ld
-#	export CPP=${DEVROOT}/usr/bin/cpp
-	export CXX=${DEVROOT}/usr/bin/g++
+	if [ "${ARCH}" == "i386" ];
+	then
+	export CC=${DEVROOT}/usr/bin/gcc
+		export CPP=${DEVROOT}/usr/bin/cpp
+		export CXX=${DEVROOT}/usr/bin/g++
+		export CXXCPP=$DEVROOT/usr/bin/cpp
+	else
+		export CC=${DEVROOT}/usr/bin/gcc
+		export CXX=${DEVROOT}/usr/bin/g++
+	fi
 	export AR=${DEVROOT}/usr/bin/ar
 	export AS=${DEVROOT}/usr/bin/as
 	export NM=${DEVROOT}/usr/bin/nm
-#	export CXXCPP=$DEVROOT/usr/bin/cpp
+	export CXXCPP=$DEVROOT/usr/bin/cpp
 	export RANLIB=$DEVROOT/usr/bin/ranlib
 	export LDFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -L${CURRENTPATH}/lib"
 	export CFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -I${CURRENTPATH}/include"

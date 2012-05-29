@@ -22,15 +22,14 @@
 #  Change values here
 #
 VERSION="1.5.0"
-SDKVERSION="5.0"
+SDKVERSION="5.1"
 #
 ###########################################################################
 #
 # Don't change anything here
 CURRENTPATH=`pwd`
 ARCHS="i386 armv6 armv7"
-
-
+DEVELOPER=`xcode-select -print-path`
 ##########
 set -e
 if [ ! -e libgcrypt-${VERSION}.tar.gz ]; then
@@ -64,31 +63,29 @@ do
 	echo "Please stand by..."
 	tar zxf libgcrypt-${VERSION}.tar.gz -C src
 	cd src/libgcrypt-${VERSION}
+	
+	mkdir -p "${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk"
+	LOG="${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk/build-libgcrypt-${VERSION}.log"
 
-	if [ "${VERSION}" == "1.4.6" ] || [ "${VERSION}" == "1.5.0" ];
-	then
-		echo "Version ${VERSION} detected - Patch needed"
-		patch -p0 < ../../libgcrypt-patch-1.4.6.diff
-	fi
+	echo "Patching libgcrypt to compile with iOS-SDK..."
+	echo "@see http://www.telesphoreo.org/browser/trunk/data/gcrypt/armasm.diff"
+	patch -p0 < ../../armasm.diff >> "${LOG}" 2>&1
+	echo "Patching done."
 
-	export DEVROOT="/Developer/Platforms/${PLATFORM}.platform/Developer"
+	export DEVROOT="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer"
 	export SDKROOT="${DEVROOT}/SDKs/${PLATFORM}${SDKVERSION}.sdk"
-	export CC="${DEVROOT}/usr/bin/gcc -arch ${ARCH}"
+	export CC=${DEVROOT}/usr/bin/gcc
 	export LD=${DEVROOT}/usr/bin/ld
-#	export CPP=${DEVROOT}/usr/bin/cpp
+	export CPP=${DEVROOT}/usr/bin/llvm-cpp-4.2
 	export CXX=${DEVROOT}/usr/bin/g++
 	export AR=${DEVROOT}/usr/bin/ar
 	export AS=${DEVROOT}/usr/bin/as
 	export NM=${DEVROOT}/usr/bin/nm
-#	export CXXCPP=$DEVROOT/usr/bin/cpp
+	export CXXCPP=$DEVROOT/usr/bin/llvm-cpp-4.2
 	export RANLIB=$DEVROOT/usr/bin/ranlib
 	export LDFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -L${CURRENTPATH}/lib"
 	export CFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -I${CURRENTPATH}/include"
 	export CXXFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -I${CURRENTPATH}/include"
-
-	mkdir -p "${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk"
-
-	LOG="${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk/build-libgcrypt-${VERSION}.log"
 
 	./configure --host=${ARCH}-apple-darwin --prefix="${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk" --disable-shared --enable-static --with-gpg-error-prefix="${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk" >> "${LOG}" 2>&1
 

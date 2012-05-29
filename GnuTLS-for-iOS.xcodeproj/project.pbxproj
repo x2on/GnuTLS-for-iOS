@@ -21,6 +21,7 @@
 		2AEFE8BE12F82A5C00F777A6 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AEFE8BD12F82A5C00F777A6 /* libz.dylib */; };
 		2AEFE8F912F82CDD00F777A6 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AEFE8F812F82CDD00F777A6 /* MainWindow.xib */; };
 		2AEFE8FB12F82CE100F777A6 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AEFE8FA12F82CE100F777A6 /* Icon.png */; };
+		53CF39DB15754F440079DAC3 /* VersionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 53CF39DA15754F440079DAC3 /* VersionHelper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,8 @@
 		2AEFE8F812F82CDD00F777A6 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainWindow.xib; path = Ressources/MainWindow.xib; sourceTree = "<group>"; };
 		2AEFE8FA12F82CE100F777A6 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Ressources/Icon.png; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* GnuTLS_for_iOS_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GnuTLS_for_iOS_Prefix.pch; sourceTree = "<group>"; };
+		53CF39D915754F440079DAC3 /* VersionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VersionHelper.h; sourceTree = "<group>"; };
+		53CF39DA15754F440079DAC3 /* VersionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VersionHelper.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* GnuTLS_for_iOS-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GnuTLS_for_iOS-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -70,6 +73,8 @@
 			children = (
 				1D3623240D0F684500981E51 /* GnuTLS_for_iOSAppDelegate.h */,
 				1D3623250D0F684500981E51 /* GnuTLS_for_iOSAppDelegate.m */,
+				53CF39D915754F440079DAC3 /* VersionHelper.h */,
+				53CF39DA15754F440079DAC3 /* VersionHelper.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -193,6 +198,7 @@
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* GnuTLS_for_iOSAppDelegate.m in Sources */,
+				53CF39DB15754F440079DAC3 /* VersionHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

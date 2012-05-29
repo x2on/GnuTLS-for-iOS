@@ -2,3 +2,6 @@ bin
 src
 lib
 *.gz
+*.bz2
+GnuTLS-for-iOS.xcodeproj/xcuserdata
+GnuTLS-for-iOS.xcodeproj/project.xcworkspace

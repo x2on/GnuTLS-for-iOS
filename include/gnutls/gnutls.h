@@ -53,13 +53,13 @@ extern "C"
 {
 #endif
 
-#define GNUTLS_VERSION "2.12.5"
+#define GNUTLS_VERSION "2.12.19"
 
 #define GNUTLS_VERSION_MAJOR 2
 #define GNUTLS_VERSION_MINOR 12
-#define GNUTLS_VERSION_PATCH 5
+#define GNUTLS_VERSION_PATCH 19
 
-#define GNUTLS_VERSION_NUMBER 0x020c05
+#define GNUTLS_VERSION_NUMBER 0x020c13
 
 #define GNUTLS_CIPHER_RIJNDAEL_128_CBC GNUTLS_CIPHER_AES_128_CBC
 #define GNUTLS_CIPHER_RIJNDAEL_256_CBC GNUTLS_CIPHER_AES_256_CBC
@@ -1106,6 +1106,7 @@ extern "C"
   int gnutls_global_init (void);
   void gnutls_global_deinit (void);
 
+  typedef time_t (*gnutls_time_func) (time_t *t);
   typedef int (*mutex_init_func) (void **mutex);
   typedef int (*mutex_lock_func) (void **mutex);
   typedef int (*mutex_unlock_func) (void **mutex);
@@ -1126,6 +1127,8 @@ extern "C"
                                      gnutls_is_secure_function is_secure_func,
                                      gnutls_realloc_function realloc_func,
                                      gnutls_free_function free_func);
+
+  void gnutls_global_set_time_function (gnutls_time_func);
 
 /* For use in callbacks */
   extern gnutls_alloc_function gnutls_malloc;
@@ -1756,6 +1759,7 @@ extern "C"
 #define GNUTLS_E_PKCS11_USER_ERROR -317
 
 #define GNUTLS_E_CRYPTO_INIT_FAILED -318
+#define GNUTLS_E_CERTIFICATE_LIST_UNSORTED -324
 
 #define GNUTLS_E_UNIMPLEMENTED_FEATURE -1250
 
