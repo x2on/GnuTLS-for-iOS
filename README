@@ -4,8 +4,9 @@ This is a tutorial for using self-compiled builds of the GnuTLS-library for iOS.
 
 Enjoy GnuTLS on the iPhone!
 
-I have made an iOS 4.3 XCode Project with GnuTLS 2.12.7 Libaries. The examples uses the MD5-algorithm to calculate an md5 from an UITextfield.
+I have made an iOS 5.1 XCode Project with GnuTLS 2.12.19 Libaries. The examples uses the MD5-algorithm to calculate an md5 from an UITextfield.
 
+UPDATE 29.05.2012: Updated GnuTLS to 2.12.19, iOS 5.1 compatibility
 UPDATE 01.02.2011: Updated GnuTLS to 2.10.4: Patch needed from http://permalink.gmane.org/gmane.comp.encryption.gpg.gnutls.devel/4825
 UPDATE 19.03.2011: Updated GnuTLS to 2.10.5: Patch needed from http://permalink.gmane.org/gmane.comp.encryption.gpg.gnutls.devel/4825
 UPDATE 27.03.2011: Updated GnuTLS to 2.12.0: Force using libgcrypt
