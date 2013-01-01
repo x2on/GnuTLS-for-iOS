@@ -61,7 +61,7 @@
 }
 
 - (IBAction)showInfo {
-    NSString *message = [NSString stringWithFormat:@"GnuTLS-Version: %@\nlibgcrypt-Version: %@\nlibgpg-error-Version: %@\n\nLicense: See include/*/LICENSE\n\nCopyright 2011-2012 by Felix Schulze\n http://www.x2on.de",[VersionHelper gnutlsVersion], [VersionHelper libgcryptVersion], [VersionHelper libgpgerrorVersion]];
+    NSString *message = [NSString stringWithFormat:@"GnuTLS-Version: %@\nlibgcrypt-Version: %@\nlibgpg-error-Version: %@\n\nLicense: See include/*/LICENSE\n\nCopyright 2011-2013 by Felix Schulze\n http://www.felixschulze.de",[VersionHelper gnutlsVersion], [VersionHelper libgcryptVersion], [VersionHelper libgpgerrorVersion]];
 
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"GnuTLS-for-iOS" message:message delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil];
 	

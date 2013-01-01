@@ -22,15 +22,14 @@
 #  Change values here
 #
 VERSION="2.12.19"
-SDKVERSION="5.1"
+SDKVERSION="6.0"
 #
 ###########################################################################
 #
 # Don't change anything here
 CURRENTPATH=`pwd`
-ARCHS="i386 armv6 armv7"
-
-
+ARCHS="i386 armv7 armv7s"
+DEVELOPER=`xcode-select -print-path`
 ##########
 set -e
 if [ ! -e gnutls-${VERSION}.tar.bz2 ]; then
@@ -97,20 +96,26 @@ do
 
 	echo "Please stand by..."
 
-	export DEVROOT="/Developer/Platforms/${PLATFORM}.platform/Developer"
+	export DEVROOT="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer"
 	export SDKROOT="${DEVROOT}/SDKs/${PLATFORM}${SDKVERSION}.sdk"
-	export CC="${DEVROOT}/usr/bin/gcc -arch ${ARCH}"
 	export LD=${DEVROOT}/usr/bin/ld
-	export CPP=${DEVROOT}/usr/bin/llvm-cpp-4.2
-	export CXX=${DEVROOT}/usr/bin/g++
+	if [ "${ARCH}" == "i386" ];
+	then
+	export CC=${DEVROOT}/usr/bin/gcc
+		export CPP=${DEVROOT}/usr/bin/cpp
+		export CXX=${DEVROOT}/usr/bin/g++
+		export CXXCPP=$DEVROOT/usr/bin/cpp
+	else
+		export CC=${DEVROOT}/usr/bin/gcc
+		export CXX=${DEVROOT}/usr/bin/g++
+	fi
 	export AR=${DEVROOT}/usr/bin/ar
 	export AS=${DEVROOT}/usr/bin/as
 	export NM=${DEVROOT}/usr/bin/nm
-	export CXXCPP=$DEVROOT/usr/bin/llvm-cpp-4.2
 	export RANLIB=$DEVROOT/usr/bin/ranlib
-	export LDFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -L${CURRENTPATH}/lib"
-	export CFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -I${CURRENTPATH}/include"
-	export CXXFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -I${CURRENTPATH}/include"
+	export LDFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -L${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk/lib"
+	export CFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -I${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk/include"
+	export CXXFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -I${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk/include"
 
 	mkdir -p "${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk"
 
@@ -126,10 +131,10 @@ do
 done
 
 echo "Build library..."
-lipo -create ${CURRENTPATH}/bin/iPhoneSimulator${SDKVERSION}-i386.sdk/lib/libgnutls.a ${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv6.sdk/lib/libgnutls.a ${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv7.sdk/lib/libgnutls.a -output ${CURRENTPATH}/lib/libgnutls.a
-lipo -create ${CURRENTPATH}/bin/iPhoneSimulator${SDKVERSION}-i386.sdk/lib/libgnutls-extra.a ${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv6.sdk/lib/libgnutls-extra.a ${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv7.sdk/lib/libgnutls-extra.a -output ${CURRENTPATH}/lib/libgnutls-extra.a
-lipo -create ${CURRENTPATH}/bin/iPhoneSimulator${SDKVERSION}-i386.sdk/lib/libgnutls-openssl.a ${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv6.sdk/lib/libgnutls-openssl.a ${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv7.sdk/lib/libgnutls-openssl.a -output ${CURRENTPATH}/lib/libgnutls-openssl.a
-lipo -create ${CURRENTPATH}/bin/iPhoneSimulator${SDKVERSION}-i386.sdk/lib/libgnutlsxx.a ${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv6.sdk/lib/libgnutlsxx.a ${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv7.sdk/lib/libgnutlsxx.a -output ${CURRENTPATH}/lib/libgnutlsxx.a
+lipo -create ${CURRENTPATH}/bin/iPhoneSimulator${SDKVERSION}-i386.sdk/lib/libgnutls.a ${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv7.sdk/lib/libgnutls.a ${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv7s.sdk/lib/libgnutls.a -output ${CURRENTPATH}/lib/libgnutls.a
+lipo -create ${CURRENTPATH}/bin/iPhoneSimulator${SDKVERSION}-i386.sdk/lib/libgnutls-extra.a ${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv7.sdk/lib/libgnutls-extra.a ${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv7s.sdk/lib/libgnutls-extra.a -output ${CURRENTPATH}/lib/libgnutls-extra.a
+lipo -create ${CURRENTPATH}/bin/iPhoneSimulator${SDKVERSION}-i386.sdk/lib/libgnutls-openssl.a ${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv7.sdk/lib/libgnutls-openssl.a ${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv7s.sdk/lib/libgnutls-openssl.a -output ${CURRENTPATH}/lib/libgnutls-openssl.a
+lipo -create ${CURRENTPATH}/bin/iPhoneSimulator${SDKVERSION}-i386.sdk/lib/libgnutlsxx.a ${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv7.sdk/lib/libgnutlsxx.a ${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv7s.sdk/lib/libgnutlsxx.a -output ${CURRENTPATH}/lib/libgnutlsxx.a
 
 cp -R ${CURRENTPATH}/bin/iPhoneSimulator${SDKVERSION}-i386.sdk/include/gnutls ${CURRENTPATH}/include/
 echo "Building done."
