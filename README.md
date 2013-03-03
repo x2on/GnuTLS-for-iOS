@@ -4,9 +4,22 @@ This is a tutorial for using self-compiled builds of the GnuTLS-library for iOS.
 
 Enjoy GnuTLS on the iPhone!
 
+Checkout the submodules:
+```bash
+git submodule init
+git submodule update
+```
+
+Build the libraries:
+```bash
+./build-all.sh
+```
+
 The examples uses the MD5-algorithm to calculate an md5 from an UITextfield.
 
 ## Changelog:
+
+2013-03-03: iOS 6.1 compatibility, Move libgcrypt to submodule
 
 2013-01-01: iOS 6.0 compatibility
 
