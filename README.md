@@ -19,7 +19,7 @@ The examples uses the MD5-algorithm to calculate an md5 from an UITextfield.
 
 ## Changelog:
 
-2013-03-03: iOS 6.1 compatibility, Move libgcrypt to submodule
+2013-03-03: iOS 6.1 compatibility, Move libgcrypt to submodule, GnuTLS 2.12.23
 
 2013-01-01: iOS 6.0 compatibility
 
