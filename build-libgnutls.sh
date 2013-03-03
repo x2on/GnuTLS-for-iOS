@@ -21,7 +21,7 @@
 ###########################################################################
 #  Change values here
 #
-VERSION="2.12.19"
+VERSION="2.12.23"
 SDKVERSION="6.1"
 #
 ###########################################################################
@@ -34,7 +34,7 @@ DEVELOPER=`xcode-select -print-path`
 set -e
 if [ ! -e gnutls-${VERSION}.tar.bz2 ]; then
 	echo "Downloading gnutls-${VERSION}.tar.bz2"
-    curl -O ftp://ftp.gnu.org/gnu/gnutls/gnutls-${VERSION}.tar.bz2
+    curl -O ftp://ftp.gnutls.org/gcrypt/gnutls/v2.12/gnutls-${VERSION}.tar.bz2
 else
 	echo "Using gnutls-${VERSION}.tar.bz2"
 fi
@@ -88,10 +88,10 @@ do
 		cd ..
 	fi
 	
-	if [ "${VERSION}" == "2.12.19" ];
+	if [ "${VERSION}" == "2.12.19" ] || [ "${VERSION}" == "2.12.23" ];
 	then
 		EXTRA_CONFIGURE_FLAGS="--without-p11-kit"
-		echo "Version 2.12.19 detected - Setting extra configure flags: " ${EXTRA_CONFIGURE_FLAGS}
+		echo "Version ${VERSION} detected - Setting extra configure flags: " ${EXTRA_CONFIGURE_FLAGS}
 	fi
 
 	echo "Please stand by..."
